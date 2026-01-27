@@ -65,24 +65,29 @@ class FinanceEmptyState extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.06),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.10),
+                    ),
                   ),
-                  child: Icon(icon, color: Colors.white.withValues(alpha: 0.90)),
+                  child: Icon(
+                    icon,
+                    color: Colors.white.withValues(alpha: 0.90),
+                  ),
                 ),
               if (icon != null) const SizedBox(height: 12),
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                    ),
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
                 message,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.70),
-                    ),
+                  color: Colors.white.withValues(alpha: 0.70),
+                ),
               ),
               const SizedBox(height: 14),
               Align(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/formatters/lkr_format.dart';
+import '../../../../core/widgets/finance_empty_state.dart';
 import '../../../../core/widgets/hover_tilt.dart';
 import '../../domain/entities/financial_account.dart';
 import '../providers/bank_accounts_controller.dart';
@@ -38,11 +39,27 @@ class BankAccountsScreen extends ConsumerWidget {
             const SizedBox(height: 14),
             if (state.isLoading)
               const LinearProgressIndicator(minHeight: 8)
+            else if (state.accounts.isEmpty)
+              FinanceEmptyState(
+                title: 'No accounts yet',
+                message:
+                    'Add a wallet/bank/card to tag expenses by payment method.',
+                actionLabel: 'Add (soon)',
+                onAction: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Account creation UI coming next.'),
+                    ),
+                  );
+                },
+                tone: AppColors.neutral,
+                icon: Icons.account_balance_wallet_rounded,
+              )
             else
               Expanded(
                 child: ListView.separated(
                   itemCount: state.accounts.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
                   itemBuilder: (context, i) {
                     final a = state.accounts[i];
                     return _AccountCard(

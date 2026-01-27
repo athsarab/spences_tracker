@@ -1,10 +1,6 @@
 import '../../../expenses/domain/entities/expense.dart';
 
-enum FinancialAccountType {
-  bankAccount,
-  card,
-  cashWallet,
-}
+enum FinancialAccountType { bankAccount, card, cashWallet }
 
 class FinancialAccount {
   const FinancialAccount({

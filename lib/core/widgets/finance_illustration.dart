@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 /// This is intentionally subtle (no busy patterns) and designed to work
 /// behind text, especially for onboarding and empty states.
 class FinanceIllustration extends StatelessWidget {
-  const FinanceIllustration({
-    super.key,
-    required this.tone,
-  });
+  const FinanceIllustration({super.key, required this.tone});
 
   final Color tone;
 
@@ -36,9 +33,21 @@ class _FinanceIllustrationPainter extends CustomPainter {
       ..strokeWidth = 2
       ..color = tone.withValues(alpha: 0.16);
 
-    canvas.drawCircle(Offset(size.width * 0.18, size.height * 0.42), 22, coinPaint);
-    canvas.drawCircle(Offset(size.width * 0.28, size.height * 0.50), 14, coinPaint);
-    canvas.drawCircle(Offset(size.width * 0.78, size.height * 0.34), 18, coinPaint);
+    canvas.drawCircle(
+      Offset(size.width * 0.18, size.height * 0.42),
+      22,
+      coinPaint,
+    );
+    canvas.drawCircle(
+      Offset(size.width * 0.28, size.height * 0.50),
+      14,
+      coinPaint,
+    );
+    canvas.drawCircle(
+      Offset(size.width * 0.78, size.height * 0.34),
+      18,
+      coinPaint,
+    );
 
     // A calm line chart (single polyline + dots).
     paint

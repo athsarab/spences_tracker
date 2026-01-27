@@ -33,16 +33,16 @@ class SavingsTargetsScreen extends ConsumerWidget {
             Text(
               'Small steps count.',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
             ),
             const SizedBox(height: 6),
             Text(
               'Pause goals any time—no pressure.',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.62),
-                  ),
+                color: Colors.white.withValues(alpha: 0.62),
+              ),
             ),
             const SizedBox(height: 14),
             if (state.isLoading)
@@ -51,7 +51,7 @@ class SavingsTargetsScreen extends ConsumerWidget {
               Expanded(
                 child: ListView.separated(
                   itemCount: state.targets.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
                   itemBuilder: (context, i) {
                     final t = state.targets[i];
                     return _TargetCard(
@@ -161,11 +161,16 @@ class _TargetCard extends StatelessWidget {
                           ),
                           if (target.isPaused)
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.06),
                                 borderRadius: BorderRadius.circular(999),
-                                border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.10),
+                                ),
                               ),
                               child: Text(
                                 'Paused',
@@ -200,7 +205,9 @@ class _TargetCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    progress >= 1 ? 'Goal reached. Keep it for next month?' : 'You’re building momentum.',
+                    progress >= 1
+                        ? 'Goal reached. Keep it for next month?'
+                        : 'You’re building momentum.',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.white.withValues(alpha: 0.60),
                     ),
@@ -214,7 +221,11 @@ class _TargetCard extends StatelessWidget {
                 IconButton(
                   tooltip: target.isPaused ? 'Resume' : 'Pause',
                   onPressed: onTogglePause,
-                  icon: Icon(target.isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded),
+                  icon: Icon(
+                    target.isPaused
+                        ? Icons.play_arrow_rounded
+                        : Icons.pause_rounded,
+                  ),
                 ),
               ],
             ),
@@ -243,8 +254,12 @@ class _TargetEditorSheetState extends ConsumerState<_TargetEditorSheet> {
   void initState() {
     super.initState();
     _name = TextEditingController(text: widget.existing?.name ?? '');
-    _target = TextEditingController(text: widget.existing?.targetAmountLkr.toString() ?? '');
-    _current = TextEditingController(text: widget.existing?.currentAmountLkr.toString() ?? '0');
+    _target = TextEditingController(
+      text: widget.existing?.targetAmountLkr.toString() ?? '',
+    );
+    _current = TextEditingController(
+      text: widget.existing?.currentAmountLkr.toString() ?? '0',
+    );
   }
 
   @override
@@ -302,7 +317,9 @@ class _TargetEditorSheetState extends ConsumerState<_TargetEditorSheet> {
                   child: TextField(
                     controller: _current,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Current (LKR)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Current (LKR)',
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -310,7 +327,9 @@ class _TargetEditorSheetState extends ConsumerState<_TargetEditorSheet> {
                   child: TextField(
                     controller: _target,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Target (LKR)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Target (LKR)',
+                    ),
                   ),
                 ),
               ],
@@ -318,10 +337,7 @@ class _TargetEditorSheetState extends ConsumerState<_TargetEditorSheet> {
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
-              child: FilledButton(
-                onPressed: _save,
-                child: const Text('Save'),
-              ),
+              child: FilledButton(onPressed: _save, child: const Text('Save')),
             ),
           ],
         ),
@@ -341,7 +357,8 @@ class _TargetEditorSheetState extends ConsumerState<_TargetEditorSheet> {
       return;
     }
 
-    final id = widget.existing?.id ?? 't_${DateTime.now().microsecondsSinceEpoch}';
+    final id =
+        widget.existing?.id ?? 't_${DateTime.now().microsecondsSinceEpoch}';
     final updated = SavingsTarget(
       id: id,
       name: name,
