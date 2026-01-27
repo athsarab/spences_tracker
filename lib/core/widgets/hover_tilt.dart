@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 /// Subtle hover/parallax feel for desktop/web.
@@ -48,7 +46,7 @@ class _HoverTiltState extends State<HoverTilt> {
           ..setEntry(3, 2, 0.001)
           ..rotateX(tiltX)
           ..rotateY(tiltY)
-          ..translate(0.0, _hover ? -2.0 : 0.0, 0.0),
+          ..translateByDouble(0.0, _hover ? -2.0 : 0.0, 0.0, 1.0),
         child: widget.child,
       ),
     );
