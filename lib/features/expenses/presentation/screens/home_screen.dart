@@ -6,11 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/formatters/lkr_format.dart';
 import '../../../../core/widgets/animated_progress.dart';
+import '../../../../core/widgets/app_page_route.dart';
 import '../../../../core/widgets/micro_fab.dart';
+import '../../../accounts/presentation/screens/bank_accounts_screen.dart';
 import '../../../savings/presentation/screens/savings_targets_screen.dart';
 import '../../domain/entities/recurring_payment.dart';
 import '../providers/dashboard_controller.dart';
 import 'add_expense_screen.dart';
+import 'recurring_payments_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -25,10 +28,30 @@ class HomeScreen extends ConsumerWidget {
         title: const Text('Spences'),
         actions: [
           IconButton(
+            tooltip: 'Recurring payments',
+            onPressed: () {
+              Navigator.of(context).push(
+                AppPageRoute<void>(
+                  builder: (_) => const RecurringPaymentsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.calendar_month_rounded),
+          ),
+          IconButton(
+            tooltip: 'Accounts',
+            onPressed: () {
+              Navigator.of(context).push(
+                AppPageRoute<void>(builder: (_) => const BankAccountsScreen()),
+              );
+            },
+            icon: const Icon(Icons.account_balance_wallet_rounded),
+          ),
+          IconButton(
             tooltip: 'Savings targets',
             onPressed: () {
               Navigator.of(context).push(
-                MaterialPageRoute<void>(
+                AppPageRoute<void>(
                   builder: (_) => const SavingsTargetsScreen(),
                 ),
               );
@@ -67,9 +90,9 @@ class HomeScreen extends ConsumerWidget {
         icon: Icons.add_rounded,
         label: 'Add Expense',
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute<void>(builder: (_) => const AddExpenseScreen()),
-          );
+          Navigator.of(
+            context,
+          ).push(AppPageRoute<void>(builder: (_) => const AddExpenseScreen()));
         },
       ),
     );
@@ -425,8 +448,9 @@ class _UpcomingRecurringCard extends StatelessWidget {
   DateTime _nextDue(DateTime now, int dayOfMonth) {
     final safeDay = dayOfMonth.clamp(1, 28);
     final thisMonth = DateTime(now.year, now.month, safeDay);
-    if (!thisMonth.isBefore(DateTime(now.year, now.month, now.day)))
+    if (!thisMonth.isBefore(DateTime(now.year, now.month, now.day))) {
       return thisMonth;
+    }
     return DateTime(now.year, now.month + 1, safeDay);
   }
 }

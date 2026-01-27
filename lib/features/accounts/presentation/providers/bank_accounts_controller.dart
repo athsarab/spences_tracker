@@ -9,18 +9,26 @@ class BankAccountsState {
   final List<FinancialAccount> accounts;
   final bool isLoading;
 
-  BankAccountsState copyWith({List<FinancialAccount>? accounts, bool? isLoading}) {
+  BankAccountsState copyWith({
+    List<FinancialAccount>? accounts,
+    bool? isLoading,
+  }) {
     return BankAccountsState(
       accounts: accounts ?? this.accounts,
       isLoading: isLoading ?? this.isLoading,
     );
   }
 
-  static const initial = BankAccountsState(accounts: <FinancialAccount>[], isLoading: true);
+  static const initial = BankAccountsState(
+    accounts: <FinancialAccount>[],
+    isLoading: true,
+  );
 }
 
 final bankAccountsControllerProvider =
-    NotifierProvider<BankAccountsController, BankAccountsState>(BankAccountsController.new);
+    NotifierProvider<BankAccountsController, BankAccountsState>(
+      BankAccountsController.new,
+    );
 
 class BankAccountsController extends Notifier<BankAccountsState> {
   @override

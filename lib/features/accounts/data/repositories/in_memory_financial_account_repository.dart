@@ -1,5 +1,6 @@
 import '../../domain/entities/financial_account.dart';
 import '../../domain/repositories/financial_account_repository.dart';
+import '../../../expenses/domain/entities/expense.dart';
 
 class InMemoryFinancialAccountRepository implements FinancialAccountRepository {
   final List<FinancialAccount> _accounts = <FinancialAccount>[
@@ -30,7 +31,8 @@ class InMemoryFinancialAccountRepository implements FinancialAccountRepository {
   ];
 
   @override
-  Future<List<FinancialAccount>> listAccounts() async => List.unmodifiable(_accounts);
+  Future<List<FinancialAccount>> listAccounts() async =>
+      List.unmodifiable(_accounts);
 
   @override
   Future<void> upsertAccount(FinancialAccount account) async {

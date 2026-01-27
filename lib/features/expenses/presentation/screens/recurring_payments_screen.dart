@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_colors.dart';
 import '../../../../core/formatters/lkr_format.dart';
-import '../../../../core/widgets/app_page_route.dart';
+import '../../../../core/widgets/finance_empty_state.dart';
 import '../../domain/entities/recurring_payment.dart';
 import '../providers/recurring_payments_controller.dart';
 
@@ -13,10 +13,12 @@ class RecurringPaymentsScreen extends ConsumerStatefulWidget {
   const RecurringPaymentsScreen({super.key});
 
   @override
-  ConsumerState<RecurringPaymentsScreen> createState() => _RecurringPaymentsScreenState();
+  ConsumerState<RecurringPaymentsScreen> createState() =>
+      _RecurringPaymentsScreenState();
 }
 
-class _RecurringPaymentsScreenState extends ConsumerState<RecurringPaymentsScreen> {
+class _RecurringPaymentsScreenState
+    extends ConsumerState<RecurringPaymentsScreen> {
   late final Stream<DateTime> _ticker;
 
   @override
@@ -24,7 +26,10 @@ class _RecurringPaymentsScreenState extends ConsumerState<RecurringPaymentsScree
     super.initState();
     // Why: a single screen-level ticker updates countdowns smoothly
     // without per-row timers (more scalable and predictable).
-    _ticker = Stream<DateTime>.periodic(const Duration(seconds: 1), (_) => DateTime.now());
+    _ticker = Stream<DateTime>.periodic(
+      const Duration(seconds: 1),
+      (_) => DateTime.now(),
+    );
   }
 
   @override
@@ -54,7 +59,13 @@ class _RecurringPaymentsScreenState extends ConsumerState<RecurringPaymentsScree
             );
           }
 
-          final sorted = [...state.items]..sort((a, b) => _nextDue(now, a.dayOfMonth).compareTo(_nextDue(now, b.dayOfMonth)));
+          final sorted = [...state.items]
+            ..sort(
+              (a, b) => _nextDue(
+                now,
+                a.dayOfMonth,
+              ).compareTo(_nextDue(now, b.dayOfMonth)),
+            );
 
           return ListView(
             padding: const EdgeInsets.all(16),
@@ -62,16 +73,16 @@ class _RecurringPaymentsScreenState extends ConsumerState<RecurringPaymentsScree
               Text(
                 'Predictable bills = calmer month.',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
                 'Toggle auto-deduction to simulate a planned month.',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white.withValues(alpha: 0.62),
-                    ),
+                  color: Colors.white.withValues(alpha: 0.62),
+                ),
               ),
               const SizedBox(height: 14),
               if (sorted.isEmpty)
@@ -101,7 +112,10 @@ class _RecurringPaymentsScreenState extends ConsumerState<RecurringPaymentsScree
     );
   }
 
-  Future<void> _showEditor(BuildContext context, {RecurringPayment? existing}) async {
+  Future<void> _showEditor(
+    BuildContext context, {
+    RecurringPayment? existing,
+  }) async {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -126,26 +140,13 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(26),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.calendar_month_rounded, color: Colors.white),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Text(
-              'Add rent, internet, subscriptions…',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          FilledButton(onPressed: onAdd, child: const Text('Add')),
-        ],
-      ),
+    return FinanceEmptyState(
+      title: 'Add predictable bills',
+      message: 'Rent, internet, subscriptions — keep the month calm.',
+      actionLabel: 'Add',
+      onAction: onAdd,
+      tone: AppColors.neutral,
+      icon: Icons.calendar_month_rounded,
     );
   }
 }
@@ -209,7 +210,8 @@ class _RecurringCard extends StatelessWidget {
                     children: [
                       Text(
                         payment.title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
                             ),
@@ -230,7 +232,8 @@ class _RecurringCard extends StatelessWidget {
                         child: Text(
                           countdown,
                           key: ValueKey<String>(countdown),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
                                 color: Colors.white.withValues(alpha: 0.66),
                               ),
                         ),
@@ -241,9 +244,9 @@ class _RecurringCard extends StatelessWidget {
                 Text(
                   LkrFormat.money(payment.amountLkr),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                      ),
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -307,7 +310,11 @@ class _RecurringCard extends StatelessWidget {
 }
 
 class _CalendarCue extends StatelessWidget {
-  const _CalendarCue({required this.day, required this.tone, required this.warn});
+  const _CalendarCue({
+    required this.day,
+    required this.tone,
+    required this.warn,
+  });
 
   final int day;
   final Color tone;
@@ -354,7 +361,10 @@ class _CalendarCue extends StatelessWidget {
                   color: tone,
                   shape: BoxShape.circle,
                   boxShadow: [
-                    BoxShadow(color: tone.withValues(alpha: 0.30), blurRadius: 10),
+                    BoxShadow(
+                      color: tone.withValues(alpha: 0.30),
+                      blurRadius: 10,
+                    ),
                   ],
                 ),
               ),
@@ -366,7 +376,11 @@ class _CalendarCue extends StatelessWidget {
 }
 
 class _ToggleRow extends StatelessWidget {
-  const _ToggleRow({required this.label, required this.value, required this.onChanged});
+  const _ToggleRow({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
 
   final String label;
   final bool value;
@@ -386,7 +400,10 @@ class _ToggleRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: TextStyle(color: Colors.white.withValues(alpha: 0.72), fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.72),
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           Switch.adaptive(value: value, onChanged: onChanged),
@@ -396,27 +413,42 @@ class _ToggleRow extends StatelessWidget {
   }
 }
 
-class _Appear extends StatelessWidget {
+class _Appear extends StatefulWidget {
   const _Appear({required this.index, required this.child});
 
   final int index;
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
+  State<_Appear> createState() => _AppearState();
+}
+
+class _AppearState extends State<_Appear> {
+  bool _started = false;
+
+  @override
+  void initState() {
+    super.initState();
     // Smooth list animation without heavy libs.
-    final delay = Duration(milliseconds: 30 * index);
+    final delay = Duration(milliseconds: 30 * widget.index);
+    Future<void>.delayed(delay, () {
+      if (!mounted) return;
+      setState(() => _started = true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0, end: 1),
+      tween: Tween<double>(begin: 0, end: _started ? 1 : 0),
       duration: const Duration(milliseconds: 320),
       curve: Curves.easeOutCubic,
-      delay: delay,
       builder: (context, t, _) {
         return Opacity(
           opacity: t,
           child: Transform.translate(
             offset: Offset(0, (1 - t) * 10),
-            child: child,
+            child: widget.child,
           ),
         );
       },
@@ -430,7 +462,8 @@ class _RecurringEditorSheet extends ConsumerStatefulWidget {
   final RecurringPayment? existing;
 
   @override
-  ConsumerState<_RecurringEditorSheet> createState() => _RecurringEditorSheetState();
+  ConsumerState<_RecurringEditorSheet> createState() =>
+      _RecurringEditorSheetState();
 }
 
 class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
@@ -445,8 +478,12 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
   void initState() {
     super.initState();
     _title = TextEditingController(text: widget.existing?.title ?? '');
-    _amount = TextEditingController(text: widget.existing?.amountLkr.toString() ?? '');
-    _day = TextEditingController(text: widget.existing?.dayOfMonth.toString() ?? '1');
+    _amount = TextEditingController(
+      text: widget.existing?.amountLkr.toString() ?? '',
+    );
+    _day = TextEditingController(
+      text: widget.existing?.dayOfMonth.toString() ?? '1',
+    );
     _auto = widget.existing?.autoDeductEnabled ?? false;
     _active = widget.existing?.isActive ?? true;
   }
@@ -480,8 +517,14 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
               children: [
                 Expanded(
                   child: Text(
-                    widget.existing == null ? 'New recurring' : 'Edit recurring',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.white),
+                    widget.existing == null
+                        ? 'New recurring'
+                        : 'Edit recurring',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 IconButton(
@@ -491,7 +534,10 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
               ],
             ),
             const SizedBox(height: 8),
-            TextField(controller: _title, decoration: const InputDecoration(labelText: 'Title')),
+            TextField(
+              controller: _title,
+              decoration: const InputDecoration(labelText: 'Title'),
+            ),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -499,7 +545,9 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
                   child: TextField(
                     controller: _amount,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Amount (LKR)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Amount (LKR)',
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -507,7 +555,9 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
                   child: TextField(
                     controller: _day,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Due day (1-28)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Due day (1-28)',
+                    ),
                   ),
                 ),
               ],
@@ -535,10 +585,7 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
             const SizedBox(height: 14),
             SizedBox(
               width: double.infinity,
-              child: FilledButton(
-                onPressed: _save,
-                child: const Text('Save'),
-              ),
+              child: FilledButton(onPressed: _save, child: const Text('Save')),
             ),
           ],
         ),
@@ -559,7 +606,8 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
     }
 
     final safeDay = day.clamp(1, 28);
-    final id = widget.existing?.id ?? 'r_${DateTime.now().microsecondsSinceEpoch}';
+    final id =
+        widget.existing?.id ?? 'r_${DateTime.now().microsecondsSinceEpoch}';
 
     final payment = RecurringPayment(
       id: id,
@@ -570,7 +618,9 @@ class _RecurringEditorSheetState extends ConsumerState<_RecurringEditorSheet> {
       isActive: _active,
     );
 
-    await ref.read(recurringPaymentsControllerProvider.notifier).upsert(payment);
+    await ref
+        .read(recurringPaymentsControllerProvider.notifier)
+        .upsert(payment);
 
     if (mounted) Navigator.of(context).pop();
   }

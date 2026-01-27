@@ -12,6 +12,8 @@ class SpencesApp extends StatelessWidget {
       title: 'Spences',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.system,
       home: const HomeScreen(),
     );
   }
