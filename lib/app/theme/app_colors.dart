@@ -17,19 +17,12 @@ abstract final class AppColors {
   static const LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF0B1220),
-      Color(0xFF101B34),
-      Color(0xFF0B1220),
-    ],
+    colors: [Color(0xFF0B1220), Color(0xFF101B34), Color(0xFF0B1220)],
   );
 
   static const LinearGradient cardGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [
-      Color(0x26FFFFFF),
-      Color(0x0FFFFFFF),
-    ],
+    colors: [Color(0x26FFFFFF), Color(0x0FFFFFFF)],
   );
 }

@@ -9,19 +9,26 @@ class RecurringPaymentsState {
   final List<RecurringPayment> items;
   final bool isLoading;
 
-  RecurringPaymentsState copyWith({List<RecurringPayment>? items, bool? isLoading}) {
+  RecurringPaymentsState copyWith({
+    List<RecurringPayment>? items,
+    bool? isLoading,
+  }) {
     return RecurringPaymentsState(
       items: items ?? this.items,
       isLoading: isLoading ?? this.isLoading,
     );
   }
 
-  static const initial = RecurringPaymentsState(items: <RecurringPayment>[], isLoading: true);
+  static const initial = RecurringPaymentsState(
+    items: <RecurringPayment>[],
+    isLoading: true,
+  );
 }
 
-final recurringPaymentsControllerProvider = NotifierProvider<RecurringPaymentsController, RecurringPaymentsState>(
-  RecurringPaymentsController.new,
-);
+final recurringPaymentsControllerProvider =
+    NotifierProvider<RecurringPaymentsController, RecurringPaymentsState>(
+      RecurringPaymentsController.new,
+    );
 
 class RecurringPaymentsController extends Notifier<RecurringPaymentsState> {
   @override
