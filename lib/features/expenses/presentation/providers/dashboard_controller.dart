@@ -30,7 +30,10 @@ class DashboardState {
   int get monthSpentLkr {
     final now = DateTime.now();
     return expenses
-        .where((e) => e.occurredAt.year == now.year && e.occurredAt.month == now.month)
+        .where(
+          (e) =>
+              e.occurredAt.year == now.year && e.occurredAt.month == now.month,
+        )
         .fold(0, (sum, e) => sum + e.amountLkr);
   }
 
@@ -86,7 +89,9 @@ class DashboardState {
 }
 
 final dashboardControllerProvider =
-    NotifierProvider<DashboardController, DashboardState>(DashboardController.new);
+    NotifierProvider<DashboardController, DashboardState>(
+      DashboardController.new,
+    );
 
 class DashboardController extends Notifier<DashboardState> {
   @override

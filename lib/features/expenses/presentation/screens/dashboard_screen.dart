@@ -118,7 +118,10 @@ class _HeroBudgetCard extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: state.plan.dailyBudgetLkr <= 0
                       ? 0
-                      : (state.todaySpentLkr / state.plan.dailyBudgetLkr).clamp(0, 1),
+                      : (state.todaySpentLkr / state.plan.dailyBudgetLkr).clamp(
+                          0,
+                          1,
+                        ),
                   minHeight: 10,
                   borderRadius: BorderRadius.circular(999),
                   backgroundColor: Colors.white.withValues(alpha: 0.10),
@@ -158,7 +161,8 @@ class _MonthlyCard extends StatelessWidget {
             label: 'This month',
             value: LkrFormat.money(state.monthSpentLkr),
             color: monthColor,
-            subLabel: '${LkrFormat.money(remaining.abs())} ${remaining >= 0 ? 'left' : 'over'}',
+            subLabel:
+                '${LkrFormat.money(remaining.abs())} ${remaining >= 0 ? 'left' : 'over'}',
             trailing: Text(
               '${(state.monthBudgetProgress * 100).round()}%',
               style: const TextStyle(
@@ -200,7 +204,8 @@ class _MonthlyCard extends StatelessWidget {
               Expanded(
                 child: _Pill(
                   label: 'Recurring',
-                  value: '${state.recurringPayments.where((p) => p.isActive).length}',
+                  value:
+                      '${state.recurringPayments.where((p) => p.isActive).length}',
                   color: AppColors.neutral,
                 ),
               ),
@@ -240,7 +245,10 @@ class _Pill extends StatelessWidget {
                 color: color,
                 shape: BoxShape.circle,
                 boxShadow: [
-                  BoxShadow(color: color.withValues(alpha: 0.25), blurRadius: 12),
+                  BoxShadow(
+                    color: color.withValues(alpha: 0.25),
+                    blurRadius: 12,
+                  ),
                 ],
               ),
             ),
@@ -248,8 +256,9 @@ class _Pill extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: theme.textTheme.labelMedium
-                    ?.copyWith(color: Colors.white.withValues(alpha: 0.70)),
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: Colors.white.withValues(alpha: 0.70),
+                ),
               ),
             ),
             Text(
@@ -338,7 +347,11 @@ class _ExpenseRow extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
             ),
-            child: Icon(icon, color: Colors.white.withValues(alpha: 0.85), size: 20),
+            child: Icon(
+              icon,
+              color: Colors.white.withValues(alpha: 0.85),
+              size: 20,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -375,12 +388,12 @@ class _ExpenseRow extends StatelessWidget {
   }
 
   static String _label(ExpenseCategory c) => switch (c) {
-        ExpenseCategory.food => 'Food',
-        ExpenseCategory.transport => 'Transport',
-        ExpenseCategory.bills => 'Bills',
-        ExpenseCategory.shopping => 'Shopping',
-        ExpenseCategory.other => 'Other',
-      };
+    ExpenseCategory.food => 'Food',
+    ExpenseCategory.transport => 'Transport',
+    ExpenseCategory.bills => 'Bills',
+    ExpenseCategory.shopping => 'Shopping',
+    ExpenseCategory.other => 'Other',
+  };
 }
 
 class _QuickAddSheet extends ConsumerStatefulWidget {
@@ -479,17 +492,21 @@ class _QuickAddSheetState extends ConsumerState<_QuickAddSheet> {
     final amount = int.tryParse(raw);
 
     if (amount == null || amount <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Enter a valid amount.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Enter a valid amount.')));
       return;
     }
 
-    await ref.read(dashboardControllerProvider.notifier).addExpense(
+    await ref
+        .read(dashboardControllerProvider.notifier)
+        .addExpense(
           amountLkr: amount,
           category: _category,
           paymentMethod: PaymentMethod.cash,
-          note: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
+          note: _noteController.text.trim().isEmpty
+              ? null
+              : _noteController.text.trim(),
         );
 
     if (mounted) Navigator.of(context).pop();

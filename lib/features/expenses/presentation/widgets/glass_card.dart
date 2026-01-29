@@ -31,10 +31,7 @@ class GlassCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
           ),
-          child: Padding(
-            padding: padding,
-            child: child,
-          ),
+          child: Padding(padding: padding, child: child),
         ),
       ),
     );

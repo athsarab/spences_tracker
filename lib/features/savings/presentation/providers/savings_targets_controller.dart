@@ -9,18 +9,26 @@ class SavingsTargetsState {
   final List<SavingsTarget> targets;
   final bool isLoading;
 
-  SavingsTargetsState copyWith({List<SavingsTarget>? targets, bool? isLoading}) {
+  SavingsTargetsState copyWith({
+    List<SavingsTarget>? targets,
+    bool? isLoading,
+  }) {
     return SavingsTargetsState(
       targets: targets ?? this.targets,
       isLoading: isLoading ?? this.isLoading,
     );
   }
 
-  static const initial = SavingsTargetsState(targets: <SavingsTarget>[], isLoading: true);
+  static const initial = SavingsTargetsState(
+    targets: <SavingsTarget>[],
+    isLoading: true,
+  );
 }
 
 final savingsTargetsControllerProvider =
-    NotifierProvider<SavingsTargetsController, SavingsTargetsState>(SavingsTargetsController.new);
+    NotifierProvider<SavingsTargetsController, SavingsTargetsState>(
+      SavingsTargetsController.new,
+    );
 
 class SavingsTargetsController extends Notifier<SavingsTargetsState> {
   @override

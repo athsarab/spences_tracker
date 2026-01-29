@@ -96,7 +96,8 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
 
   void _onKey(String digit) {
     setState(() {
-      if (_amountText.length >= 7) return; // keeps input fast + avoids huge numbers
+      if (_amountText.length >= 7)
+        return; // keeps input fast + avoids huge numbers
       if (_amountText == '0') {
         _amountText = digit;
       } else {
@@ -119,11 +120,15 @@ class _AddExpenseScreenState extends ConsumerState<AddExpenseScreen> {
   Future<void> _onSave() async {
     HapticFeedback.mediumImpact();
 
-    await ref.read(dashboardControllerProvider.notifier).addExpense(
+    await ref
+        .read(dashboardControllerProvider.notifier)
+        .addExpense(
           amountLkr: _amountLkr,
           category: _category,
           paymentMethod: _paymentMethod,
-          note: _noteController.text.trim().isEmpty ? null : _noteController.text.trim(),
+          note: _noteController.text.trim().isEmpty
+              ? null
+              : _noteController.text.trim(),
         );
 
     if (mounted) Navigator.of(context).pop();
@@ -237,17 +242,35 @@ class _PaymentMethodPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return SegmentedButton<PaymentMethod>(
       segments: const [
-        ButtonSegment(value: PaymentMethod.cash, label: Text('Cash'), icon: Icon(Icons.payments_rounded)),
-        ButtonSegment(value: PaymentMethod.bank, label: Text('Bank'), icon: Icon(Icons.account_balance_rounded)),
-        ButtonSegment(value: PaymentMethod.card, label: Text('Card'), icon: Icon(Icons.credit_card_rounded)),
+        ButtonSegment(
+          value: PaymentMethod.cash,
+          label: Text('Cash'),
+          icon: Icon(Icons.payments_rounded),
+        ),
+        ButtonSegment(
+          value: PaymentMethod.bank,
+          label: Text('Bank'),
+          icon: Icon(Icons.account_balance_rounded),
+        ),
+        ButtonSegment(
+          value: PaymentMethod.card,
+          label: Text('Card'),
+          icon: Icon(Icons.credit_card_rounded),
+        ),
       ],
       selected: {value},
       onSelectionChanged: (s) => onChanged(s.first),
       showSelectedIcon: false,
       style: ButtonStyle(
-        backgroundColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.06)),
-        side: WidgetStatePropertyAll(BorderSide(color: Colors.white.withValues(alpha: 0.12))),
-        shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+        backgroundColor: WidgetStatePropertyAll(
+          Colors.white.withValues(alpha: 0.06),
+        ),
+        side: WidgetStatePropertyAll(
+          BorderSide(color: Colors.white.withValues(alpha: 0.12)),
+        ),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        ),
       ),
     );
   }
@@ -268,19 +291,9 @@ class _Keypad extends StatelessWidget {
   Widget build(BuildContext context) {
     final keys = <Widget>[
       for (final d in ['1', '2', '3', '4', '5', '6', '7', '8', '9'])
-        _KeypadKey(
-          label: d,
-          onTap: () => onKey(d),
-        ),
-      _KeypadKey(
-        label: 'CLR',
-        onTap: onClear,
-        tint: AppColors.neutral,
-      ),
-      _KeypadKey(
-        label: '0',
-        onTap: () => onKey('0'),
-      ),
+        _KeypadKey(label: d, onTap: () => onKey(d)),
+      _KeypadKey(label: 'CLR', onTap: onClear, tint: AppColors.neutral),
+      _KeypadKey(label: '0', onTap: () => onKey('0')),
       _KeypadKey(
         icon: Icons.backspace_rounded,
         onTap: onBackspace,
@@ -301,12 +314,8 @@ class _Keypad extends StatelessWidget {
 }
 
 class _KeypadKey extends StatefulWidget {
-  const _KeypadKey({
-    this.label,
-    this.icon,
-    this.tint,
-    required this.onTap,
-  }) : assert(label != null || icon != null);
+  const _KeypadKey({this.label, this.icon, this.tint, required this.onTap})
+    : assert(label != null || icon != null);
 
   final String? label;
   final IconData? icon;
@@ -359,7 +368,11 @@ class _KeypadKeyState extends State<_KeypadKey> {
 }
 
 class _SaveButton extends StatefulWidget {
-  const _SaveButton({required this.enabled, required this.label, this.onPressed});
+  const _SaveButton({
+    required this.enabled,
+    required this.label,
+    this.onPressed,
+  });
 
   final bool enabled;
   final String label;
